@@ -4,7 +4,7 @@ This repository is unofficial porting of Arduino sample code of MAXRESDEF117#(ma
 MAXREFDES117#: https://www.maximintegrated.com/jp/design/reference-design-center/system-board/6300.html  
 Original Arduino codes: https://github.com/MaximIntegratedRefDesTeam/RD117_ARDUINO/
 
-Related Qiita post (Japanese): 
+Related Qiita post (Japanese): https://qiita.com/vrn/items/1ac58c61194b23af1d8c
 
 # Files
 - `max30102.py` contains a class which has some setup functions and sensor-reading functions
