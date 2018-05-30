@@ -12,7 +12,7 @@ Related Qiita post (Japanese): https://qiita.com/vrn/items/1ac58c61194b23af1d8c
 - `makegraph.py` can visualize the log data (but it does not work on raspberry pi cli)
 
 # Run
-Before running enable i2c and connect the sensor.
+Before running, enable i2c interface, install smbus and rpi.gpio, and connect the sensor.
 
 You can initialize the sensor by running the followings.
 
