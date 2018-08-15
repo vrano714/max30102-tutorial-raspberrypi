@@ -1,0 +1,14 @@
+__pycache__
+.ipynb_checkpoints
+
+*.ipynb
+
+*.cpp
+*.out
+
+figures
+
+*.fzz
+*.png
+
+*.pdf
