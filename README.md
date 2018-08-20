@@ -15,7 +15,8 @@ Related Qiita post (Japanese): https://qiita.com/vrn/items/1ac58c61194b23af1d8c
 
 ## Run
 
-Before running, enable i2c interface, install smbus and rpi.gpio, and connect the sensor.
+Before running, enable i2c interface, install smbus and rpi.gpio, and connect the sensor.  
+If you use `hrcalc.py`, numpy is required.
 
 Note that the following pin connection is assumed in the files:
 
@@ -42,13 +43,18 @@ After that, `red` and `ir` should have 100 values each.
 ### Calculate HR / SpO2
 
 `hrcalc.py` has a function `calc_hr_and_spo2(ir_data, red_data) -> (hr, hr_valid, spo2, spo2_valid)`
-which works as an approximation of `maxim_heart_rate_and_oxygen_saturation` in the original Arduino implementaion.
+which works as an approximation of `maxim_heart_rate_and_oxygen_saturation` in the original Arduino implementation.
 
-**The resulting HR & SpO2 may be different between original implementation and this implementation.**
+**The resulting HR & SpO2 may be different between original implementation and this implementation.**  
+**The behavior of the functions are checked by Python 3.6.4 on macOS. Not in Raspberry Pi.**
 
 ```python
 # after you load red and ir
 >>> import hrcalc
 >>> hrcalc.calc_hr_and_spo2(ir[:100], red[:100])
- (136, True, 96.411114, True) # this shows hr is 136 and is valid, spo2 is 96% and is valid
+ (136, True, 96.411114, True) # this shows hr is 136 and it is a valid value, spo2 is 96% and it is a valid value
 ```
+
+-----
+
+Caution: Do not use these files at critical/fatal situations. No guarantee of calculation result.
