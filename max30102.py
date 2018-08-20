@@ -1,4 +1,4 @@
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
 # this code is currently for python 2.7
 from __future__ import print_function
@@ -44,6 +44,7 @@ REG_PART_ID = 0xFF
 # currently not used
 MAX_BRIGHTNESS = 255
 
+
 class MAX30102():
     # by default, this assumes that physical pin 7 (GPIO 4) is used as interrupt
     # by default, this assumes that the device is at 0x57 on channel 1
@@ -60,7 +61,7 @@ class MAX30102():
 
         self.reset()
 
-        sleep(1) # wait 1 sec
+        sleep(1)  # wait 1 sec
 
         # read & clear interrupt register (read 1 byte)
         reg_data = self.bus.read_i2c_block_data(self.address, REG_INTR_STATUS_1, 1)
@@ -135,8 +136,8 @@ class MAX30102():
         d = self.bus.read_i2c_block_data(self.address, REG_FIFO_DATA, 6)
 
         # mask MSB [23:18]
-        red_led = (d[3]<<16 | d[4] << 8 | d[5]) & 0x03FFFF
-        ir_led = (d[0]<<16 | d[1] << 8 | d[2]) & 0x03FFFF
+        red_led = (d[3] << 16 | d[4] << 8 | d[5]) & 0x03FFFF
+        ir_led = (d[0] << 16 | d[1] << 8 | d[2]) & 0x03FFFF
 
         return red_led, ir_led
 
