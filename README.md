@@ -46,13 +46,74 @@ After that, `red` and `ir` should have 100 values each.
 which works as an approximation of `maxim_heart_rate_and_oxygen_saturation` in the original Arduino implementation.
 
 **The resulting HR & SpO2 may be different between original implementation and this implementation.**  
-**The behavior of the functions are checked by Python 3.6.4 on macOS. Not in Raspberry Pi.**
 
 ```python
 # after you load red and ir
 >>> import hrcalc
 >>> hrcalc.calc_hr_and_spo2(ir[:100], red[:100])
- (136, True, 96.411114, True) # this shows hr is 136 and it is a valid value, spo2 is 96% and it is a valid value
+(136, True, 96.411114, True)
+# this shows hr is 136 and it is a valid value, spo2 is 96% and it is a valid value
+# this value is produced when using line 10 - 110 of sample logs
+```
+
+### Using sample files (ir.log, red.log)
+
+these two files are pre-recorded sensor data. Both has 1000 lines (= 1000 values).
+
+Tesing can be:
+
+```python
+>>> import hrcalc
+>>> ir = []
+>>> with open("ir.log", "r") as f:
+...     for line in f:
+...         ir.append(int(line))
+...
+>>> red = []
+>>> with open("red.log", "r") as f:
+...     for line in f:
+...         red.append(int(line))
+...
+>>> for i in range(37):
+...     hrcalc.calc_hr_and_spo2(ir[25*i:25*i+100], red[25*i:25*i+100])
+...
+(-999, False, -999, False)
+(166, True, 96.157416, True)
+(166, True, 53.29605, True)
+(136, True, 91.65938399999999, True)
+(62, True, 81.02229599999998, True)
+(78, True, 80.435154, True)
+(78, True, 92.03925, True)
+(62, True, 90.872616, True)
+(62, True, 62.00625, True)
+(78, True, 60.336306, True)
+(115, True, 71.982216, True)
+(75, True, 82.169544, True)
+(88, True, 92.03925, True)
+(65, True, 88.747986, True)
+(65, True, 88.747986, True)
+(78, True, 82.72964999999999, True)
+(107, True, 92.771946, True)
+(115, True, 99.519096, True)
+(136, True, 49.55963399999999, True)
+(100, True, 99.8058, True)
+(65, True, 99.59255399999999, True)
+(41, True, 98.288856, True)
+(83, True, 79.233834, True)
+(83, True, 79.233834, True)
+(125, True, 59.48781599999999, True)
+(78, True, 81.02229599999998, True)
+(115, True, 68.32554599999999, True)
+(83, True, 94.129194, True)
+(136, True, 99.758856, True)
+(125, True, 95.894706, True)
+(107, True, 88.29602399999999, True)
+(88, True, 88.29602399999999, True)
+(100, True, 90.0498, True)
+(93, True, 69.074904, True)
+(107, True, 61.17578399999999, True)
+(75, True, 63.640146, True)
+(78, True, 97.74405, True)
 ```
 
 -----
