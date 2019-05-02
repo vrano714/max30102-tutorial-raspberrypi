@@ -136,8 +136,8 @@ class MAX30102():
         d = self.bus.read_i2c_block_data(self.address, REG_FIFO_DATA, 6)
 
         # mask MSB [23:18]
-        red_led = (d[3] << 16 | d[4] << 8 | d[5]) & 0x03FFFF
-        ir_led = (d[0] << 16 | d[1] << 8 | d[2]) & 0x03FFFF
+        red_led = (d[0] << 16 | d[1] << 8 | d[2]) & 0x03FFFF
+        ir_led = (d[3] << 16 | d[4] << 8 | d[5]) & 0x03FFFF
 
         return red_led, ir_led
 

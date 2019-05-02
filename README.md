@@ -1,4 +1,5 @@
 # max30102-tutorial-raspberrypi
+
 This repository is unofficial porting of Arduino sample code of MAXRESDEF117#(max30102) HR/SpO2 sensor.
 
 MAXREFDES117#: https://www.maximintegrated.com/jp/design/reference-design-center/system-board/6300.html  
@@ -16,7 +17,7 @@ Related Qiita post (Japanese): https://qiita.com/vrn/items/1ac58c61194b23af1d8c
 ## Run
 
 Before running, enable i2c interface, install smbus and rpi.gpio, and connect the sensor.  
-If you use `hrcalc.py`, numpy is required.
+If you use `hrcalc.py` to get HR and SpO2, numpy is required.
 
 Note that the following pin connection is assumed in the files:
 
@@ -34,11 +35,14 @@ You can initialize the sensor by running the followings.
 
 ```python
 >>> import max30102
->>> m = max30102.MAX30102()
->>> red, ir = m.read_sequential()
+>>> m = max30102.MAX30102() # sensor initialization
+>>> red, ir = m.read_sequential() # get LEDs readings
 ```
 
 After that, `red` and `ir` should have 100 values each.
+
+If you use different pin other than pin 7 for INT, `max30102.MAX30102()` should be modified (`gpio_pin=7` is the default value).  
+If your HR sensor's address is not `0x57`, `max30102.MAX30102()` should be modified (`address=0x57` is the default value).
 
 ### Calculate HR / SpO2
 
@@ -50,7 +54,7 @@ which works as an approximation of `maxim_heart_rate_and_oxygen_saturation` in t
 ```python
 # after you load red and ir
 >>> import hrcalc
->>> hrcalc.calc_hr_and_spo2(ir[:100], red[:100])
+>>> hrcalc.calc_hr_and_spo2(ir[:100], red[:100]) # give 100 values
 (136, True, 96.411114, True)
 # this shows hr is 136 and it is a valid value, spo2 is 96% and it is a valid value
 # this value is produced when using line 10 - 110 of sample logs
@@ -58,7 +62,7 @@ which works as an approximation of `maxim_heart_rate_and_oxygen_saturation` in t
 
 ### Using sample files (ir.log, red.log)
 
-these two files are pre-recorded sensor data. Both has 1000 lines (= 1000 values).
+These two files are pre-recorded sensor data. Both has 1000 lines (= 1000 values).
 
 Tesing can be:
 
@@ -75,45 +79,45 @@ Tesing can be:
 ...         red.append(int(line))
 ...
 >>> for i in range(37):
-...     hrcalc.calc_hr_and_spo2(ir[25*i:25*i+100], red[25*i:25*i+100])
+...     print(hrcalc.calc_hr_and_spo2(ir[25*i:25*i+100], red[25*i:25*i+100]))
 ...
 (-999, False, -999, False)
-(166, True, 96.157416, True)
-(166, True, 53.29605, True)
-(136, True, 91.65938399999999, True)
-(62, True, 81.02229599999998, True)
-(78, True, 80.435154, True)
-(78, True, 92.03925, True)
-(62, True, 90.872616, True)
-(62, True, 62.00625, True)
-(78, True, 60.336306, True)
-(115, True, 71.982216, True)
-(75, True, 82.169544, True)
-(88, True, 92.03925, True)
-(65, True, 88.747986, True)
-(65, True, 88.747986, True)
-(78, True, 82.72964999999999, True)
-(107, True, 92.771946, True)
-(115, True, 99.519096, True)
-(136, True, 49.55963399999999, True)
+(107, True, 99.43662599999999, True)
+(88, True, 99.519096, True)
+(83, True, 99.855786, True)
+(83, True, 99.59255399999999, True)
+(125, True, 99.758856, True)
+(100, True, 99.43662599999999, True)
+(107, True, 99.657, True)
+(115, True, 99.848136, True)
+(136, True, 99.824664, True)
+(125, True, 99.0534, True)
 (100, True, 99.8058, True)
-(65, True, 99.59255399999999, True)
-(41, True, 98.288856, True)
-(83, True, 79.233834, True)
-(83, True, 79.233834, True)
-(125, True, 59.48781599999999, True)
-(78, True, 81.02229599999998, True)
-(115, True, 68.32554599999999, True)
-(83, True, 94.129194, True)
-(136, True, 99.758856, True)
-(125, True, 95.894706, True)
-(107, True, 88.29602399999999, True)
-(88, True, 88.29602399999999, True)
-(100, True, 90.0498, True)
-(93, True, 69.074904, True)
-(107, True, 61.17578399999999, True)
-(75, True, 63.640146, True)
-(78, True, 97.74405, True)
+(115, True, 99.135144, True)
+(93, True, 99.016626, True)
+(100, True, 99.771114, True)
+(88, True, 99.169194, True)
+(100, True, 99.169194, True)
+(107, True, 99.373746, True)
+(100, True, 99.84405, True)
+(125, True, 99.758856, True)
+(115, True, 99.758856, True)
+(88, True, 99.43662599999999, True)
+(68, True, 99.345144, True)
+(65, True, 99.373746, True)
+(65, True, 99.373746, True)
+(78, True, 99.854424, True)
+(88, True, 99.712434, True)
+(83, True, 99.657, True)
+(93, True, 99.345144, True)
+(88, True, 99.712434, True)
+(88, True, 99.855786, True)
+(68, True, 99.848136, True)
+(68, True, 99.848136, True)
+(42, True, 99.854424, True)
+(71, True, 96.23505, True)
+(75, True, 98.928594, True)
+(83, True, 99.43662599999999, True)
 ```
 
 -----
