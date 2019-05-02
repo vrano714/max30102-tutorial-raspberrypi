@@ -55,8 +55,8 @@ which works as an approximation of `maxim_heart_rate_and_oxygen_saturation` in t
 # after you load red and ir
 >>> import hrcalc
 >>> hrcalc.calc_hr_and_spo2(ir[:100], red[:100]) # give 100 values
-(136, True, 96.411114, True)
-# this shows hr is 136 and it is a valid value, spo2 is 96% and it is a valid value
+(136, True, 98.752554, True)
+# this shows hr is 136 and it is a valid value, spo2 is 98% and it is a valid value
 # this value is produced when using line 10 - 110 of sample logs
 ```
 
