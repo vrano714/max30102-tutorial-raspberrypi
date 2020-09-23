@@ -29,6 +29,8 @@ Note that the following pin connection is assumed in the files:
 | - (pin7; GPIO 4)        | INT       |
 | GND (pin9)              | GND       |
 
+The code requires all 5 pins to work correctly. Please ensure that `INT` pin is connected.
+
 ### Record Raw Values
 
 You can initialize the sensor by running the followings.
@@ -38,6 +40,10 @@ You can initialize the sensor by running the followings.
 >>> m = max30102.MAX30102() # sensor initialization
 >>> red, ir = m.read_sequential() # get LEDs readings
 ```
+
+`read_sequential()` will block until getting 100 values (default; can be changed) for each LED.
+It uses `INT` pin for checking the value availability.
+If the pin is not connected, this will blocks forever (i.e. the script will freeze).
 
 After that, `red` and `ir` should have 100 values each.
 
@@ -118,6 +124,23 @@ Tesing can be:
 (71, True, 96.23505, True)
 (75, True, 98.928594, True)
 (83, True, 99.43662599999999, True)
+```
+
+### Running Continuously
+
+You may wrap `read_sequential()` with `while` infinite loop to get sensor values continuously.
+
+```python:continuous_monitor.py
+
+import max30102
+import hrcalc
+
+m = max30102.MAX30102()
+
+# 100 samples are read and used for HR/SpO2 calculation in a single loop
+while True:
+    red, ir = m.read_sequential()
+    print(hrcalc.calc_hr_and_spo2(ir, red))
 ```
 
 -----
