@@ -49,7 +49,7 @@ class MAX30102():
     # by default, this assumes that physical pin 7 (GPIO 4) is used as interrupt
     # by default, this assumes that the device is at 0x57 on channel 1
     def __init__(self, channel=1, address=0x57, gpio_pin=7):
-        print("Channel: {0}, address: {1}".format(channel, address))
+        print("Channel: {0}, address: 0x{1:x}".format(channel, address))
         self.address = address
         self.channel = channel
         self.bus = smbus.SMBus(self.channel)
